@@ -1,0 +1,48 @@
+﻿@using HAR.Web.Models.Product
+@model CreateProductViewModel
+
+@{
+    ViewData["Title"] = "Create Product";
+}
+
+<form method="post" enctype="multipart/form-data">
+    <div>
+        <label class="form-label">Име<span style="color:red;">*</span></label>
+        <input class="form-control" asp-for="Name" type="text" />
+        <span class="text-danger" asp-validation-for="Name"></span>
+    </div>
+    <div>
+        <label class="form-label">Описание</label>
+        <input class="form-control" asp-for="Desc" type="text" />
+        <span class="text-danger" asp-validation-for="Desc"></span>
+    </div>
+    <div>
+        <label class="form-label">Цена<span style="color:red;">*</span></label>
+        <input class="form-control" asp-for="Price" type="number" step=".01" value="" />
+        <span class="text-danger" asp-validation-for="Price"></span>
+    </div>
+    <div>
+        <label class="form-label">Категория</label>
+        <select class="form-control" asp-for="CategoryName">
+            <option value="@null"></option>
+            @if (Model.Categories != null)
+            {
+                @foreach (var category in Model.Categories)
+                {
+                    <option value="@category.Name">@category.Name</option>
+                }
+            }
+        </select>
+        <span class="text-danger" asp-validation-for="CategoryName"></span>
+    </div>
+    <div>
+        <label class="form-label">Снимки</label>
+        <input class="form-control" type="file" multiple name="imageUploads" accept="image/" size="" />
+        <span class="text-danger" asp-validation-for="Images"></span>
+    </div>
+    <br />
+    <span class="text-danger">@Html.ValidationMessage("CreateProductErrors")</span>
+    <hr />
+    <button class="btn btn-primary" type="submit">Създай</button>
+    <a asp-controller="Product" asp-action="Index" class="btn btn-secondary">Назад</a>
+</form>

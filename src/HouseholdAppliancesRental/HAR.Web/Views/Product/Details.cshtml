@@ -1,0 +1,60 @@
+﻿@using HAR.Service.ViewModels.Product
+@model ProductViewModel
+
+@{
+    ViewData["Title"] = "Продукт";
+}
+
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
+
+<div>
+    <div class="row">
+        @if (Model.Images != null && Model.Images.Count > 0)
+        {
+            <div>
+                @foreach(var image in Model.Images)
+                {
+                    <img class="rounded" style="width:18rem;" src="data:image/jpeg;base64, @image.Base64Content" alt="Product Image" />
+                }
+            </div>
+        }
+        else
+        {
+            <img class="rounded" style="width:18rem;" src="/img/no-photo-available.png" alt="Product image" />
+        }
+    </div>
+    <div>
+        <h1>Име: @Model.Name</h1>
+        <h5>Описание: @Model.Desc</h5>
+        <h2>Цена на месец: @Model.Price$</h2>
+        <p>Категория: @Model.CategoryName</p>
+        <span class="text-danger">@Html.ValidationMessage("AddToCartErrors")</span>
+        <a asp-controller="Cart" asp-action="AddProduct" asp-route-productId="@Model.Id" class="btn btn-primary">Добави в количка</a>
+        <a onclick="goBack()" class="btn btn-secondary">Назад</a>
+    </div>
+    <div style="margin-top: 2rem">
+        <a asp-controller="Review" asp-action="Create" asp-route-productId="@Model.Id" class="btn btn-primary" style="margin-bottom:1rem;">Добави отзив</a>
+        @if(Model.Reviews != null && Model.Reviews.Count > 0)
+        {
+            @foreach (var review in Model.Reviews)
+            {
+                <div class="min-height:6rem; padding-left:1rem;">
+                    <div class="card mb-4 box-shadow">
+                        <div class="card-body">
+                            <h5 class="card-title">@review.User.FirstName @review.User.LastName</h5>
+                            <h1 class="card-title">Оценка: @review.Rating</h1>
+                            @if (review.Comment != null && review.Comment != string.Empty)
+                            {
+                                <h3 class="card-text">@review.Comment</h3>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>

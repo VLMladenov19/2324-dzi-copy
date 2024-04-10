@@ -1,0 +1,68 @@
+﻿@using HAR.Web.Models.Cart
+@model CartViewModel
+
+@{
+    ViewData["Title"] = "Твоята колияка";
+}
+
+<h1 class="text-danger">@Html.ValidationMessage("CartViewErrors")</h1>
+@if (Model.CartProducts != null && Model.CartProducts.Count > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <td>Снимка</td>
+                <td>Цена</td>
+                <td class="text-center">Брой</td>
+                <td class="text-center">Месеци</td>
+                <td class="text-center">Действия</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var cp in Model.CartProducts)
+            {
+                <tr class="align-middle">
+                    <td>
+                        @if (cp.Product.Images != null && cp.Product.Images.Count > 0)
+                        {
+                            <img style="width:16rem;" class="card-img-top" src="data:image/jpeg;base64,@cp.Product.Images.FirstOrDefault()!.Base64Content" alt="Product image" />
+                        }
+                        else
+                        {
+                            <img style="width:16rem;" class="card-img-top" src="/img/no-photo-available.png" alt="Product image" />
+                        }
+                    </td>
+                    <td>
+                        <h2>@cp.Product.Price</h2>
+                    </td>
+                    <td class="text-center">
+                        <a class="btn" style="font-size:3rem;" asp-controller="Cart" asp-action="AddProduct" asp-route-productId="@cp.Product.Id">+</a>
+                        <h1>@cp.ProductQuantity</h1>
+                        <a class="btn" style="font-size:3rem;" asp-controller="Cart" asp-action="ReduceProduct" asp-route-productId="@cp.Product.Id">-</a>
+                    </td>
+                    <td class="text-center">
+                        <a class="btn" style="font-size:3rem;" asp-controller="Cart" asp-action="AddMonth" asp-route-productId="@cp.Product.Id">+</a>
+                        <h1>@cp.RentMonths</h1>
+                        <a class="btn" style="font-size:3rem;" asp-controller="Cart" asp-action="ReduceMonth" asp-route-productId="@cp.Product.Id">-</a>
+                    </td>
+                    <td class="text-center">
+                        <a class="btn" style="font-size:3rem;" asp-controller="Cart" asp-action="RemoveProduct" asp-route-productId="@cp.Product.Id">X</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="text-center">
+        <h1>Цена на месец: @Model.MonthPrice$</h1>
+        <h1>Общо месеци: @Model.TotalMonths</h1>
+        <h1>Обща цена: @Model.TotalPrice</h1>
+        <a asp-controller="Rent" asp-action="Index" class="btn btn-primary">Наеми</a>
+    </div>
+}
+else
+{
+    <div class="text-center">
+        <h1>Количката ти е празна</h1>
+        <a asp-controller="Product" asp-action="Index" class="btn btn-primary">Към страницата с продукти</a>
+    </div>
+}

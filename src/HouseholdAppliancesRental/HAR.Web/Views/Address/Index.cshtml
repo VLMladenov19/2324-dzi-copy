@@ -1,0 +1,63 @@
+﻿@using Essentials.Results
+@using HAR.Common
+@using HAR.Service.ViewModels.Address
+@model PaginatedItemsResult<AddressViewModel>
+
+@{
+    ViewData["Title"] = "Адреси";
+}
+
+@{
+    this.Context.Request.Query.TryGetValue("q", out var searchQuery);
+    this.Context.Request.Query.TryGetValue("ps", out var pageSizeRaw);
+    int.TryParse(pageSizeRaw.ToString(), out var pageSize);
+    if (pageSize == 0)
+    {
+        pageSize = CollectionConstants.DefaultPageSize;
+    }
+
+    var paginationViewModel = new PaginationViewModel
+    {
+        BasePath = $"/Address/?q={searchQuery}&ps={pageSize}",
+        CurrentPage = Model.CurrentPage,
+        PagesCount = Model.PagesCount,
+    };
+}
+<section class="jumbotron text-center">
+    <div class="container">
+        <h1 class="jumbotron-heading">Твоите адреси</h1>
+        <a asp-controller="Address" asp-action="Create" class="btn btn-primary my-2">Добави адрес</a>
+    </div>
+</section>
+
+<form class="mb-4 d-block w-100" method="get" asp-action="Index">
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Търси по град" value="@searchQuery" name="q" aria-label="Search address" aria-describedby="address-search">
+        <div class="input-group-append">
+            <select class="form-select" name="ps">
+                <option selected="@(pageSize == CollectionConstants.DefaultPageSize)" value="@CollectionConstants.DefaultPageSize">По подразбиране</option>
+                <option selected="@(pageSize == CollectionConstants.DefaultPageSize / 2)" value="@(CollectionConstants.DefaultPageSize / 2)">@(CollectionConstants.DefaultPageSize / 2)</option>
+                <option selected="@(pageSize == CollectionConstants.DefaultPageSize * 2)" value="@(CollectionConstants.DefaultPageSize * 2)">@(CollectionConstants.DefaultPageSize * 2)</option>
+            </select>
+        </div>
+        <div class="input-group-append">
+            <button class="btn btn-primary" type="submit">Търси</button>
+        </div>
+    </div>
+</form>
+
+@if (Model.Count > 0)
+{
+    <div class="row">
+        @foreach (var address in Model.Items)
+        {
+            <partial name="_AddressCard" model="address" />
+        }
+
+        <partial name="_Pagination" model="paginationViewModel" />
+    </div>
+}
+else
+{
+    <h1 class="text-center text-danger">Нямаш добавени адреси.</h1>
+}

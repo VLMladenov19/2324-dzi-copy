@@ -1,0 +1,13 @@
+﻿@{
+    ViewData["Title"] = "Премахни Адрес";
+}
+
+<form method="post">
+    <div>
+        <h1 class="text-main">Сигурен ли си, че искаш да премахнеш този адрес?</h1>
+    </div>
+    <br />
+    <span class="text-danger">@Html.ValidationMessage("AddressDeleteErrors")</span>
+    <button class="btn btn-primary" type="submit">Премахни</button>
+    <a asp-controller="Address" asp-action="Index" class="btn btn-secondary">Откажи</a>
+</form>

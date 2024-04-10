@@ -1,0 +1,68 @@
+﻿@using HAR.Web.Models.Rent
+@model RentViewModel
+
+@{
+    ViewData["Title"] = "Детайли за Наем";
+}
+
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
+
+<h1 class="text-danger">@Html.ValidationMessage("RentDetailsErrors")</h1>
+@if (Model.RentProducts != null && Model.RentProducts.Count > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <td>Снимка</td>
+                <td>Цена на месец</td>
+                <td class="text-center">Брой</td>
+                <td class="text-center">Месеци</td>
+                <th class="text-end">Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var rp in Model.RentProducts)
+            {
+                <tr class="align-middle">
+                    <td>
+                        @if (rp.Product.Images != null && rp.Product.Images.Count > 0)
+                        {
+                            <img style="width:16rem;" class="card-img-top" src="data:image/jpeg;base64,@rp.Product.Images.FirstOrDefault()!.Base64Content" alt="Product image" />
+                        }
+                        else
+                        {
+                            <img style="width:16rem;" class="card-img-top" src="/img/no-photo-available.png" alt="Product image" />
+                        }
+                    </td>
+                    <td>
+                        <h2>@rp.Product.Price</h2>
+                    </td>
+                    <td class="text-center">
+                        <h1>@rp.ProductQuantity</h1>
+                    </td>
+                    <td class="text-center">
+                        <h1>@rp.RentMonths</h1>
+                    </td>
+                    <td class="text-end">
+                        <a asp-controller="Product" asp-action="Details" asp-route-id="@rp.Product.Id" class="btn btn-primary">Детайли</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="text-center">
+        <h1>Обща цена: @Model.TotalPrice</h1>
+        <a onclick="goBack()" class="btn btn-secondary">Назад</a>
+    </div>
+}
+else
+{
+    <div class="text-center">
+        <h1>Наемът е празен</h1>
+        <a onclick="goBack()" class="btn btn-secondary">Назад</a>
+    </div>
+}

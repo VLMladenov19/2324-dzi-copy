@@ -1,0 +1,51 @@
+﻿@using HAR.Common.Models.Auth
+@using HAR.Service.ViewModels.Auth
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model SignUpViewModel
+
+@{
+    ViewData["Title"] = "Регистрация";
+}
+
+<form method="post">
+    <div>
+        <label class="form-label">Имейл<span style="color:red;">*</span></label>
+        <input class="form-control" asp-for="Email" type="email" />
+        <span class="text-danger" asp-validation-for="Email"></span>
+    </div>
+    <div>
+        <label class="form-label">Парола<span style="color:red;">*</span></label>
+        <input class="form-control" asp-for="Password" type="password" />
+        <span class="text-danger" asp-validation-for="Password"></span>
+    </div>
+    <div>
+        <label class="form-label">Потвърди паролата<span style="color:red;">*</span></label>
+        <input class="form-control" asp-for="ConfirmPassword" type="password" />
+        <span class="text-danger" asp-validation-for="ConfirmPassword"></span>
+    </div>
+    <div>
+        <label class="form-label">Първо име<span style="color:red;">*</span></label>
+        <input class="form-control" asp-for="FirstName"/>
+        <span class="text-danger" asp-validation-for="FirstName"></span>
+    </div>
+    <div>
+        <label class="form-label">Фамилия<span style="color:red;">*</span></label>
+        <input class="form-control" asp-for="LastName"/>
+        <span class="text-danger" asp-validation-for="LastName"></span>
+    </div>
+    <input type="hidden" asp-for="Role" value="@Model.Role" />
+    @* <div>
+        <label class="form-label">Role</label>
+        <select class="form-control" asp-for="Role">
+            <option value="@UserRole.User">User</option>
+            <option value="@UserRole.Admin">Admin</option>
+        </select>
+        <span class="text-danger" asp-validation-for="Role"></span>
+    </div> *@
+    <br />
+    <span class="text-danger">@Html.ValidationMessage("SignUpErrors")</span>
+    <hr />
+    <a href="/Auth/SignIn">Вече имаш профил? Впиши се.</a>
+    <hr />
+    <button class="btn btn-primary" type="submit">Регистрация</button>
+</form>

@@ -1,0 +1,85 @@
+﻿@using HAR.Web.Models.Rent
+@model ReviewRentViewModel
+
+@{
+    ViewData["Title"] = "Наем";
+}
+
+<form method="post">
+    @if(Model.AddressId != Guid.Empty)
+    {
+        <input type="hidden" asp-for="AddressId" value="@Model.AddressId" />
+    }
+
+    <div>
+        <label class="form-label">Пълно име<span style="color:red;">*</span></label>
+        <input class="form-control" asp-for="FullName" type="text" value="@Model.FullName" />
+        <span class="text-danger" asp-validation-for="FullName"></span>
+    </div>
+    <br />
+    <div>
+        <label class="form-label">Адрес<span style="color:red;">*</span></label>
+        @if (Model.Addresses != null && Model.Addresses.Count > 0)
+        {
+            <select class="form-control" asp-for="AddressId">
+                @foreach (var address in Model.Addresses)
+                {
+                    <option value="@address.Id">@address.City, @address.PostalCode, @address.Neighborhood, @address.Street, @address.StreetNumber</option>
+                }
+            </select>
+        }
+        <a class="btn btn-primary" asp-controller="Address" asp-action="Create">Add Address</a>
+        <br />
+        <span class="text-danger" asp-validation-for="AddressId"></span>
+    </div>
+    @if (Model.CartProducts != null && Model.CartProducts.Count > 0)
+    {
+        <br />
+        <table class="table">
+            <thead>
+                <tr>
+                    <td>Снимка</td>
+                    <td>Цена на месец</td>
+                    <td class="text-center">Брой</td>
+                    <td class="text-center">Месеци</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var cp in Model.CartProducts)
+                {
+                    <tr class="align-middle">
+                        <td>
+                            @if (cp.Product.Images != null && cp.Product.Images.Count > 0)
+                            {
+                                <img style="width:16rem;" class="card-img-top" src="data:image/jpeg;base64,@cp.Product.Images.FirstOrDefault()!.Base64Content" alt="Product image" />
+                            }
+                            else
+                            {
+                                <img style="width:16rem;" class="card-img-top" src="/img/no-photo-available.png" alt="Product image" />
+                            }
+                        </td>
+                        <td>
+                            <h2>@cp.Product.Price</h2>
+                        </td>
+                        <td class="text-center">
+                            <h1>@cp.ProductQuantity</h1>
+                        </td>
+                        <td class="text-center">
+                            <h1>@cp.RentMonths</h1>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="text-center">
+            <input type="hidden" asp-for="TotalPrice" value="@Model.TotalPrice" />
+            <h1>Обща цена: @Model.TotalPrice</h1>
+            <button class="btn btn-primary" type="submit">Наеми</button>
+        </div>
+    }
+    <div class="text-center">
+        <a class="btn btn-secondary" asp-controller="Cart" asp-action="Index">Назад</a>
+    </div>
+    <br />
+    <span class="text-danger">@Html.ValidationMessage("ReviewRentErrors")</span>
+</form>

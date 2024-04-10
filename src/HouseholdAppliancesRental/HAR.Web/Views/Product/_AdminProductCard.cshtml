@@ -1,0 +1,26 @@
+﻿﻿@using HAR.Service.ViewModels.Product
+@model ProductViewModel
+
+<div style="width:16rem; margin:0rem 0rem 1rem 0rem;">
+    <div class="card">
+        @if (Model.Images != null && Model.Images.Count > 0)
+        {
+            <img class="card-img-top" src="data:image/jpeg;base64,@Model.Images[0].Base64Content" alt="Product image" />
+        }
+        else
+        {
+            <img class="card-img-top" src="/img/no-photo-available.png" alt="Product image" />
+        }
+
+        <div class="card-body">
+            <h2 class="card-title">@Model.Name</h2>
+            <p class="card-text">@Model.Price лв. на Месец</p>
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                    <a asp-controller="Product" asp-action="Details" asp-route-id="@Model.Id" type="button" class="btn btn-sm btn-outline-secondary">Детайли</a>
+                    <a asp-controller="Product" asp-action="Delete" asp-route-id="@Model.Id" type="button" class="btn btn-sm btn-outline-secondary">Изтрий</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

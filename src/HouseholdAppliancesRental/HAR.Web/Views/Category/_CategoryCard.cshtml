@@ -1,0 +1,14 @@
+﻿@using HAR.Service.ViewModels.Category
+@model CategoryViewModel
+
+<tr class="align-middle">
+    <td>
+        <div class="d-flex align-items-center">
+            <div class="h6 mb-0 lh-1">@Model.Name</div>
+        </div>
+    </td>
+    <td> <span class="d-inline-block align-middle">@Model.ParentCategoryName</span></td>
+    <td class="text-end">
+        <a asp-controller="Category" asp-action="Delete" asp-route-name="@Model.Name">Изтрий</a>
+    </td>
+</tr>

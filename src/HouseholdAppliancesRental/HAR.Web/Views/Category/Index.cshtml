@@ -1,0 +1,79 @@
+﻿@using Essentials.Results
+@using HAR.Common
+@using HAR.Service.ViewModels.Category
+@model PaginatedItemsResult<CategoryViewModel>
+
+@{
+    ViewData["Title"] = "Категории";
+}
+
+@{
+    this.Context.Request.Query.TryGetValue("q", out var searchQuery);
+    this.Context.Request.Query.TryGetValue("ps", out var pageSizeRaw);
+    int.TryParse(pageSizeRaw.ToString(), out var pageSize);
+    if (pageSize == 0)
+    {
+        pageSize = CollectionConstants.DefaultPageSize;
+    }
+
+    var paginationViewModel = new PaginationViewModel
+            {
+                BasePath = $"/Category/?q={searchQuery}&ps={pageSize}",
+                CurrentPage = Model.CurrentPage,
+                PagesCount = Model.PagesCount,
+            };
+}
+<section class="jumbotron text-center">
+    <div class="container">
+        <h1 class="jumbotron-heading">Категории</h1>
+        <a href="/Category/Create" class="btn btn-primary my-2">Добави категория</a>
+    </div>
+</section>
+
+<form class="mb-4 d-block w-100" method="get" asp-action="Index">
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Търси по име" value="@searchQuery" name="q" aria-label="Search category" aria-describedby="category-search">
+        <div class="input-group-append">
+            <select class="form-select" name="ps">
+                <option selected="@(pageSize == CollectionConstants.DefaultPageSize)" value="@CollectionConstants.DefaultPageSize">По подразбиране</option>
+                <option selected="@(pageSize == CollectionConstants.DefaultPageSize / 2)" value="@(CollectionConstants.DefaultPageSize / 2)">@(CollectionConstants.DefaultPageSize / 2)</option>
+                <option selected="@(pageSize == CollectionConstants.DefaultPageSize * 2)" value="@(CollectionConstants.DefaultPageSize * 2)">@(CollectionConstants.DefaultPageSize * 2)</option>
+            </select>
+        </div>
+        <div class="input-group-append">
+            <button class="btn btn-primary" type="submit">Търси</button>
+        </div>
+    </div>
+</form>
+
+@if (Model.Count > 0)
+{
+    <div class="row"> 
+        <div class="col-12 mb-3 mb-lg-5">
+            <div class="overflow-hidden card table-nowrap table-card">
+                <div class="table-responsive">
+                    <table class="table mb-0">
+                        <thead class="small text-uppercase bg-body text-muted">
+                            <tr>
+                                <th>Име</th>
+                                <th class="d-inline-block align-middle">Родителска категория</th>
+                                <th class="text-end">Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var category in Model.Items)
+                            {
+                                <partial name="_CategoryCard" model="category" />
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <partial name="_Pagination" model="paginationViewModel" />
+    </div>
+}
+else
+{
+    <h1 class="text-center text-danger">Няма добавени категории.</h1>
+}

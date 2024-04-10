@@ -1,0 +1,24 @@
+﻿@using HAR.Web.Models.User
+@model EditNameViewModel
+
+@{
+    ViewData["Title"] = "Обнови Имена";
+}
+
+<form method="post">
+    <div>
+        <label class="form-label">Име<span style="color:red;">*</span></label>
+        <input class="form-control" asp-for="FirstName" type="text" value="@Model.FirstName" />
+        <span class="text-danger" asp-validation-for="FirstName"></span>
+    </div>
+    <div>
+        <label class="form-label">Фамилия<span style="color:red;">*</span></label>
+        <input class="form-control" asp-for="LastName" type="text" value="@Model.LastName" />
+        <span class="text-danger" asp-validation-for="LastName"></span>
+    </div>
+    <br />
+    <span class="text-danger">@Html.ValidationMessage("EditNameErrors")</span>
+    <hr />
+    <button class="btn btn-primary" type="submit">Запази</button>
+    <a asp-controller="User" asp-action="Settings" class="btn btn-secondary">Назад</a>
+</form>

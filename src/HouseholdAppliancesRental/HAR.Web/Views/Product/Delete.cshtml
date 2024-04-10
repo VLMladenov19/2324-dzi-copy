@@ -1,0 +1,13 @@
+﻿@{
+    ViewData["Title"] = "Изтрий Продукт";
+}
+
+<form method="post">
+    <div>
+        <h1 class="text-main">Сигурен ли си че искаш да изтриеш този продукт?</h1>
+    </div>
+    <br />
+    <span class="text-danger">@Html.ValidationMessage("ProductDeleteErrors")</span>
+    <button class="btn btn-primary" type="submit">Изтрий</button>
+    <a asp-controller="Product" asp-action="Admin" class="btn btn-secondary">Отказ</a>
+</form>

@@ -1,0 +1,101 @@
+﻿@using Essentials.Results
+@using HAR.Common
+@using HAR.Common.Models.Auth
+@using HAR.Service.ViewModels.User
+@model PaginatedItemsResult<UserViewModel>
+
+@{
+    ViewData["Title"] = "Потребители";
+}
+
+@{
+    this.Context.Request.Query.TryGetValue("q", out var searchQuery);
+    this.Context.Request.Query.TryGetValue("ps", out var pageSizeRaw);
+    int.TryParse(pageSizeRaw.ToString(), out var pageSize);
+    if (pageSize == 0)
+    {
+        pageSize = CollectionConstants.DefaultPageSize;
+    }
+
+    var paginationViewModel = new PaginationViewModel
+            {
+                BasePath = $"/Admin/Users/?q={searchQuery}&ps={pageSize}",
+                CurrentPage = Model.CurrentPage,
+                PagesCount = Model.PagesCount,
+            };
+}
+<section class="jumbotron text-center">
+    <div class="container">
+        <h1 class="jumbotron-heading">Потребители</h1>
+    </div>
+</section>
+
+<form class="mb-4 d-block w-100" method="get" asp-action="Users">
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Търси по имейл" value="@searchQuery" name="q" aria-label="Search user" aria-describedby="user-search">
+        <div class="input-group-append">
+            <select class="form-select" name="ps">
+                <option selected="@(pageSize == CollectionConstants.DefaultPageSize)" value="@CollectionConstants.DefaultPageSize">По подразбиране</option>
+                <option selected="@(pageSize == CollectionConstants.DefaultPageSize / 2)" value="@(CollectionConstants.DefaultPageSize / 2)">@(CollectionConstants.DefaultPageSize / 2)</option>
+                <option selected="@(pageSize == CollectionConstants.DefaultPageSize * 2)" value="@(CollectionConstants.DefaultPageSize * 2)">@(CollectionConstants.DefaultPageSize * 2)</option>
+            </select>
+        </div>
+        <div class="input-group-append">
+            <button class="btn btn-primary" type="submit">Търси</button>
+        </div>
+    </div>
+</form>
+
+@if (TempData.ContainsKey("ChangeUserRoleErrors"))
+{
+    <span class="text-danger">@TempData["ChangeUserRoleErrors"]</span>
+}
+@if (TempData.ContainsKey("UserDeleteErrors"))
+{
+    <span class="text-danger">@TempData["UserDeleteErrors"]</span>
+}
+
+@if (Model.Count > 0)
+{
+    <div class="row" style="margin-top:1rem;">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead class="small text-uppercase bg-body text-muted">
+                    <tr>
+                        <th>Пълно Име</th>
+                        <th>Имейл</th>
+                        <th>Роля</th>
+                        <th class="text-end">Действия</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model.Items)
+                    {
+                        <tr class="align-middle @(user == Model.Items.First() ? "table-secondary" : "")">
+                            <td>@user.FirstName @user.LastName</td>
+                            <td>@user.Email</td>
+                            <td>@user.Role</td>
+
+                            @if (user != Model.Items.First())
+                            {
+                                <td class="text-end">
+                                    <a asp-controller="Admin" asp-action="ChangeRole" asp-route-id="@user.Id" class="btn btn-secondary">Промени роля</a>
+                                    <a asp-controller="Admin" asp-action="DeleteUser" asp-route-id="@user.Id" class="btn btn-secondary">Изтрий</a>
+                                </td>
+                            }
+                            else
+                            {
+                                <td></td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <partial name="_Pagination" model="paginationViewModel" />
+    </div>
+}
+else
+{
+    <h1 class="text-center text-danger">Няма намерени потребители.</h1>
+}

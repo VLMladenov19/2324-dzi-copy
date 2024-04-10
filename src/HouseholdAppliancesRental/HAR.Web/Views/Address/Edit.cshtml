@@ -1,0 +1,59 @@
+﻿@using HAR.Service.ViewModels.Address
+@model AddressViewModel
+
+@{
+    ViewData["Title"] = "Обнови Адрес";
+}
+
+<form method="post">
+    <div>
+        <label class="form-label">Град<span style="color:red;">*</span></label>
+        <input class="form-control" asp-for="City" type="text" value="@Model.City" />
+        <span class="text-danger" asp-validation-for="City"></span>
+    </div>
+    <div>
+        <label class="form-label">Пощенски код<span style="color:red;">*</span></label>
+        <input class="form-control" asp-for="PostalCode" type="text" value="@Model.PostalCode" />
+        <span class="text-danger" asp-validation-for="PostalCode"></span>
+    </div>
+    <div>
+        <label class="form-label">Квартал<span style="color:red;">*</span></label>
+        <input class="form-control" asp-for="Neighborhood" type="text" value="@Model.Neighborhood" />
+        <span class="text-danger" asp-validation-for="Neighborhood"></span>
+    </div>
+    <div>
+        <label class="form-label">Улица<span style="color:red;">*</span></label>
+        <input class="form-control" asp-for="Street" type="text" value="@Model.Street" />
+        <span class="text-danger" asp-validation-for="Street"></span>
+    </div>
+    <div>
+        <label class="form-label">Номер на улица<span style="color:red;">*</span></label>
+        <input class="form-control" asp-for="StreetNumber" type="text" value="@Model.StreetNumber" />
+        <span class="text-danger" asp-validation-for="StreetNumber"></span>
+    </div>
+    <div>
+        <label class="form-label">Номер на блок</label>
+        <input class="form-control" asp-for="BlockNumber" type="text" value="@Model.BlockNumber" />
+        <span class="text-danger" asp-validation-for="BlockNumber"></span>
+    </div>
+    <div>
+        <label class="form-label">Вход</label>
+        <input class="form-control" asp-for="Entrance" type="text" value="@Model.Entrance" />
+        <span class="text-danger" asp-validation-for="Entrance"></span>
+    </div>
+    <div>
+        <label class="form-label">Етаж</label>
+        <input class="form-control" asp-for="Floor" type="number" value="@Model.Floor" />
+        <span class="text-danger" asp-validation-for="Floor"></span>
+    </div>
+    <div>
+        <label class="form-label">Апартамент</label>
+        <input class="form-control" asp-for="Apartment" type="text" value="@Model.Apartment" />
+        <span class="text-danger" asp-validation-for="Apartment"></span>
+    </div>
+    <br />
+    <span class="text-danger">@Html.ValidationMessage("AddressDetailsErrors")</span>
+    <hr />
+    <button class="btn btn-primary" type="submit">Запази</button>
+    <a asp-controller="Address" asp-action="Index" class="btn btn-secondary">Назад</a>
+</form>

@@ -1,0 +1,16 @@
+﻿@using HAR.Service.ViewModels.Address
+@model AddressViewModel
+
+<div class="col-md-4">
+    <div class="card mb-4 box-shadow">
+        <div class="card-body">
+            <h1 class="card-text">@Model.City, @Model.PostalCode, @Model.Neighborhood, @Model.Street, @Model.StreetNumber</h1>
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                    <a asp-controller="Address" asp-action="Edit" asp-route-id="@Model.Id" type="button" class="btn btn-sm btn-outline-secondary">Обнови</a>
+                    <a asp-controller="Address" asp-action="Delete" asp-route-id="@Model.Id" type="button" class="btn btn-sm btn-outline-secondary">Изтрий</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

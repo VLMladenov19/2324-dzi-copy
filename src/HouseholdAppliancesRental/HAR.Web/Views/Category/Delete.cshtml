@@ -1,0 +1,13 @@
+﻿@{
+    ViewData["Title"] = "Изтрий Категория";
+}
+
+<form method="post">
+    <div>
+        <h1 class="text-main">Сигурен ли си че искаш да изтриеш тази категория?</h1>
+    </div>
+    <br />
+    <h3 class="text-danger">@Html.ValidationMessage("CategoryDeleteErrors")</h3>
+    <button class="btn btn-primary" type="submit">Изтрий</button>
+    <a asp-controller="Category" asp-action="Index" class="btn btn-secondary">Отказ</a>
+</form>

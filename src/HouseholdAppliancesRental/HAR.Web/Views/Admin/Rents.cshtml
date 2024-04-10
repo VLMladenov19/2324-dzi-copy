@@ -1,0 +1,99 @@
+﻿@using Essentials.Results
+@using HAR.Common
+@using HAR.Data.Models
+@model PaginatedItemsResult<Rent>
+
+@{
+    ViewData["Title"] = "Наеми";
+}
+
+@{
+    this.Context.Request.Query.TryGetValue("q", out var searchQuery);
+    this.Context.Request.Query.TryGetValue("ps", out var pageSizeRaw);
+    int.TryParse(pageSizeRaw.ToString(), out var pageSize);
+    if (pageSize == 0)
+    {
+        pageSize = CollectionConstants.RentPageSize;
+    }
+
+    var paginationViewModel = new PaginationViewModel
+    {
+                BasePath = $"/Admin/Rents/?q={searchQuery}&ps={pageSize}",
+                CurrentPage = Model.CurrentPage,
+                PagesCount = Model.PagesCount,
+    };
+}
+<section class="jumbotron text-center">
+    <div class="container">
+        <h1 class="jumbotron-heading">Наеми</h1>
+    </div>
+</section>
+
+<form class="mb-4 d-block w-100" method="get" asp-action="Rents">
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Търси по имейл" value="@searchQuery" name="q" aria-label="Search rent" aria-describedby="address-search">
+        <div class="input-group-append">
+            <select class="form-select" name="ps">
+                <option selected="@(pageSize == CollectionConstants.DefaultPageSize)" value="@CollectionConstants.DefaultPageSize">По подразбиране</option>
+                <option selected="@(pageSize == CollectionConstants.DefaultPageSize / 2)" value="@(CollectionConstants.DefaultPageSize / 2)">@(CollectionConstants.DefaultPageSize / 2)</option>
+                <option selected="@(pageSize == CollectionConstants.DefaultPageSize * 2)" value="@(CollectionConstants.DefaultPageSize * 2)">@(CollectionConstants.DefaultPageSize * 2)</option>
+            </select>
+        </div>
+        <div class="input-group-append">
+            <button class="btn btn-primary" type="submit">Търси</button>
+        </div>
+    </div>
+</form>
+
+@if (Model.Count > 0)
+{
+    <div class="row">
+        <div class="row" style="margin-top:1rem;">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead class="small text-uppercase bg-body text-muted">
+                        <tr>
+                            <th>Продукти</th>
+                            <th>Потребителски имейл</th>
+                            <th>Дата на наемане</th>
+                            <th class="text-end">Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var rent in Model.Items)
+                        {
+                            <tr class="align-middle">
+                                <td>
+                                    @foreach (var rp in rent.RentProducts)
+                                    {
+                                        @if (rp.Product.Images != null && rp.Product.Images.Count > 0)
+                                        {
+                                            <img style="width:8rem;" class="card-img-top" src="data:image/jpeg;base64,@rp.Product.Images.FirstOrDefault()!.Base64Content" alt="Product image" />
+                                        }
+                                        else
+                                        {
+                                            <img style="width:8rem;" class="card-img-top" src="/img/no-photo-available.png" alt="Product image" />
+                                        }
+                                    }
+                                </td>
+                                <td>@rent.UserEmail</td>
+                                <td>@rent.RentalDate</td>
+                                <td class="text-end">
+                                    <a asp-controller="Rent" asp-action="Details" asp-route-id="@rent.Id" class="btn btn-primary">Детайли</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <partial name="_Pagination" model="paginationViewModel" />
+    </div>
+}
+else
+{
+    <div class="text-center">
+        <h1>Все още няма наеми!</h1>
+        <a asp-controller="Admin" asp-action="Index" class="btn btn-secondary">Назад</a>
+    </div>
+}

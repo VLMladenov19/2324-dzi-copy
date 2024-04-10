@@ -1,0 +1,67 @@
+﻿@model HAR.Data.Models.User
+
+@{
+    ViewData["Title"] = "Потебителски Настройки";
+}
+
+<h1>Настройки</h1>
+
+<div>
+    <br />
+    <h4>Имейл</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Имейл
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+    </dl>
+</div>
+<div>
+    <br />
+    <h4>Пълно Име</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Име
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+        <dt class="col-sm-2">
+            Фамилия
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+        <div>
+            <a asp-controller="User" asp-action="EditName" asp-route-id="@Model?.Id" class="btn btn-primary">Edit</a>
+        </div>
+    </dl>
+</div>
+<div>
+    <br />
+    <h4>Парола</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Парола
+        </dt>
+        <dd class="col-sm-10">
+            <h3>@String.Empty.PadLeft(Model!.PasswordHash!.Length / 10, '*')</h3>
+        </dd>
+        <div>
+            <a asp-controller="User" asp-action="ChangePassword" asp-route-id="@Model?.Id" class="btn btn-primary">Обнови</a>
+        </div>
+    </dl>
+</div>
+<div>
+    <hr />
+    <a asp-controller="User" asp-action="Delete" class="btn btn-primary">Изтрий</a>
+</div>
+<div>
+    <hr />
+    <a asp-controller="User" asp-action="Index" class="btn btn-secondary">Назад</a>
+</div>

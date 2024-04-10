@@ -1,0 +1,31 @@
+﻿@using HAR.Web.Models.Category
+@model CreateCategoryViewModel
+
+@{
+    ViewData["Title"] = "Добавяне на Категория";
+}
+
+<form method="post">
+    <div>
+        <label class="form-label">Име<span style="color:red;">*</span></label>
+        <input class="form-control" asp-for="Name" type="text" />
+        <span class="text-danger" asp-validation-for="Name"></span>
+    </div>
+    <div>
+        <label class="form-label">Родителска категория</label>
+        <select class="form-control" asp-for="ParentCategoryName">
+            <option value="@null"></option>
+            @if(Model.Categories != null)
+                @foreach(var category in Model.Categories)
+                {
+                    <option value="@category.Name">@category.Name</option>
+                }
+        </select>
+        <span class="text-danger" asp-validation-for="ParentCategoryName"></span>
+    </div>
+    <br />
+    <span class="text-danger">@Html.ValidationMessage("CreateCategoryErrors")</span>
+    <hr />
+    <button class="btn btn-primary" type="submit">Добави</button>
+    <a asp-controller="Category" asp-action="Index" class="btn btn-secondary">Назад</a>
+</form>

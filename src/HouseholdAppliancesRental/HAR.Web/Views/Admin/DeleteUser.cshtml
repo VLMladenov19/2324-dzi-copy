@@ -1,0 +1,13 @@
+﻿@{
+    ViewData["Title"] = "Изтрий Профил";
+}
+
+<form method="post">
+    <div>
+        <h1 class="text-main">Сигурен ли си, че искаш да изтриеш този профил?</h1>
+    </div>
+    <span class="text-danger">@Html.ValidationMessage("UserDeleteErrors")</span>
+    <br />
+    <button class="btn btn-primary" type="submit">Изтрий</button>
+    <a asp-controller="Admin" asp-action="Users" class="btn btn-secondary">Откажи</a>
+</form>

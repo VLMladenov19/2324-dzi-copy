@@ -1,0 +1,25 @@
+﻿@using HAR.Web.Models.Review
+@model CreateReviewViewModel
+
+@{
+    ViewData["Title"] = "Добавяне на Отзив";
+}
+
+<form method="post">
+    <input type="hidden" asp-for="ProductId" value="@Model.ProductId" />
+    <div>
+        <label class="form-label">Оценка<span style="color:red;">*</span></label>
+        <input class="form-control" asp-for="Rating" type="number" value="" />
+        <span class="text-danger" asp-validation-for="Rating"></span>
+    </div>
+    <div>
+        <label class="form-label">Коментар</label>
+        <input class="form-control" asp-for="Comment" type="text" />
+        <span class="text-danger" asp-validation-for="Comment"></span>
+    </div>
+    <br />
+    <span class="text-danger">@Html.ValidationMessage("CreateReviewErrors")</span>
+    <hr />
+    <button class="btn btn-primary" type="submit">Създай</button>
+    <a asp-controller="Product" asp-action="Details" asp-route-id="@Model.ProductId" class="btn btn-secondary">Назад</a>
+</form>
