@@ -111,7 +111,7 @@ namespace HAR.Service.Implementations
                 return new Response
                 {
                     IsSuccessful = false,
-                    Message = response.Errors.FirstOrDefault()!.ToString()!
+                    Message = response.Errors.FirstOrDefault()!.Description
                 };
             }
 
