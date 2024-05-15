@@ -33,7 +33,7 @@ namespace HAR.Tests
 
                 // Assert
                 Assert.True(response.IsSuccessful);
-                Assert.Equal("Review successfully created.", response.Message);
+                Assert.Equal("Отзив създаден успешно.", response.Message);
             }
         }
 
@@ -72,7 +72,7 @@ namespace HAR.Tests
 
                 // Assert
                 Assert.False(response.IsSuccessful);
-                Assert.Equal("Review failed creating.", response.Message);
+                Assert.Equal("Отзивът не успя да се добави.", response.Message);
                 Assert.Contains("Simulated error", response.Details);
             }
         }

@@ -98,7 +98,7 @@ namespace HAR.Tests
 
                 // Assert
                 Assert.True(response.IsSuccessful);
-                Assert.Equal("Increased product quantity in cart.", response.Message);
+                Assert.Equal("Увелечена бройката на продукта в количката.", response.Message);
 
                 var updatedCartProduct = await context.CartProducts.FirstOrDefaultAsync(cp => cp.Cart == cart && cp.Product == product);
                 Assert.NotNull(updatedCartProduct);
@@ -123,7 +123,7 @@ namespace HAR.Tests
 
                 // Assert
                 Assert.False(response.IsSuccessful);
-                Assert.Equal("Cart not found.", response.Message);
+                Assert.Equal("Количката не е намерена.", response.Message);
             }
         }
 
@@ -157,7 +157,7 @@ namespace HAR.Tests
 
                 // Assert
                 Assert.True(response.IsSuccessful);
-                Assert.Equal("Product successfully removed from cart.", response.Message);
+                Assert.Equal("Продуктът бе успешно премахнат от количката.", response.Message);
 
                 var updatedCartProduct = await context.CartProducts.FirstOrDefaultAsync(cp => cp.Cart == cart && cp.Product == product);
                 Assert.Null(updatedCartProduct);

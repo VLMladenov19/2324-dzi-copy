@@ -116,7 +116,7 @@ namespace HAR.Tests
 
                 // Assert
                 Assert.True(response.IsSuccessful);
-                Assert.Equal("Category successfully created.", response.Message);
+                Assert.Equal("Категорията успешно създадена.", response.Message);
 
                 // Check if the category has been added to the database
                 var createdCategory = await context.Categories.FirstOrDefaultAsync(c => c.Name == category.Name);
@@ -151,7 +151,7 @@ namespace HAR.Tests
 
                 // Assert
                 Assert.True(response.IsSuccessful);
-                Assert.Equal("Category successfully deleted.", response.Message);
+                Assert.Equal("Категорията бе успешно изтрита.", response.Message);
 
                 // Check if the category has been removed from the database
                 var deletedCategory = await context.Categories.FirstOrDefaultAsync(c => c.Name == category.Name);

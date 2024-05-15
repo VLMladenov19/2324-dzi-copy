@@ -38,7 +38,7 @@ namespace HAR.Service.Implementations
                 return new Response()
                 {
                     IsSuccessful = false,
-                    Message = "Отзивът не успя да се добави",
+                    Message = "Отзивът не успя да се добави.",
                     Details = ex.Message
                 };
             }

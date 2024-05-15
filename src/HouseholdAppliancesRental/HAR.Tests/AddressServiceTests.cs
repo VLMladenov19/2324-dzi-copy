@@ -1,4 +1,4 @@
-using AutoMapper;
+﻿using AutoMapper;
 using HAR.Data.Data;
 using HAR.Data.Models;
 using HAR.Service;
@@ -49,7 +49,7 @@ namespace HAR.Tests
 
                 // Assert
                 Assert.True(response.IsSuccessful);
-                Assert.Equal("Address successfully added.", response.Message);
+                Assert.Equal("Адресът е запазен успешно.", response.Message);
             }
         }
 
@@ -83,7 +83,7 @@ namespace HAR.Tests
 
                 // Assert
                 Assert.True(response.IsSuccessful);
-                Assert.Equal("Address successfully updated.", response.Message);
+                Assert.Equal("Адресът е обновен успешно.", response.Message);
             }
         }
 
@@ -117,7 +117,7 @@ namespace HAR.Tests
 
                 // Assert
                 Assert.True(response.IsSuccessful);
-                Assert.Equal("Address successfully deleted.", response.Message);
+                Assert.Equal("Адръсът е изтрит успешно.", response.Message);
             }
         }
     }
